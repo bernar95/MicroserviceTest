@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class MicroserviceService {
 	
 	public String getInstanceID() {
-		String instanceID = "";
+		int instanceID = 0;
 		File jsonInputFile = new File("config.json");
 		InputStream is;
         try {
@@ -23,13 +23,13 @@ public class MicroserviceService {
             JsonReader reader = Json.createReader(is);
             JsonObject empObj = reader.readObject();
             reader.close();
-            instanceID = empObj.getString("instance_id");
+            instanceID = empObj.getInt("instance_id");
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        return instanceID;
+        return Integer.toString(instanceID);
 	}
 
 }
