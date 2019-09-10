@@ -1,6 +1,7 @@
 package com.microsertest.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,9 +17,15 @@ public class MicroserviceController {
 	MicroserviceService microserviceService;
 	
 	@RequestMapping(value = "/instance", method = RequestMethod.GET, produces="application/json")
-	public @ResponseBody Object getInstance(HttpServletRequest request) {
+	public @ResponseBody Object getInstance() {
 		String instanceID = microserviceService.getInstanceID();
-		String clientIP = request.getRemoteAddr();
+		String clientIP = "";
+		try {
+			clientIP = InetAddress.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return "{\"instance\": \"" + instanceID + "\", \"clientIp\": \"" + clientIP + "\"}";
 	}
 
